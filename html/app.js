@@ -638,38 +638,6 @@ const InventoryContainer = Vue.createApp({
                 this.showContextMenu = false;
                 this.contextMenuItem = null;
             } else {
-                if (item.inventory === "other") {
-                    const matchingItemKey = Object.keys(this.playerInventory).find((key) => this.playerInventory[key].name === item.name);
-                    const matchingItem = this.playerInventory[matchingItemKey];
-
-                    if (matchingItem && matchingItem.unique) {
-                        const newItemKey = Object.keys(this.playerInventory).length + 1;
-                        const newItem = {
-                            ...item,
-                            inventory: "player",
-                            amount: 1,
-                        };
-                        this.playerInventory[newItemKey] = newItem;
-                    } else if (matchingItem) {
-                        matchingItem.amount++;
-                    } else {
-                        const newItemKey = Object.keys(this.playerInventory).length + 1;
-                        const newItem = {
-                            ...item,
-                            inventory: "player",
-                            amount: 1,
-                        };
-                        this.playerInventory[newItemKey] = newItem;
-                    }
-                    item.amount--;
-
-                    if (item.amount <= 0) {
-                        const itemKey = Object.keys(this.otherInventory).find((key) => this.otherInventory[key] === item);
-                        if (itemKey) {
-                            delete this.otherInventory[itemKey];
-                        }
-                    }
-                }
                 const menuLeft = event.clientX;
                 const menuTop = event.clientY;
                 this.showContextMenu = true;
