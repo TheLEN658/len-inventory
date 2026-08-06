@@ -1,36 +1,36 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap");
 
 /* ==========================================================================
-   QB-INVENTORY — GLASSMORPHISM THEME
-   Fully Transparent, High Resolution & Modern FiveM NUI Compatible
+   QB-INVENTORY — ULTRA CLEAR CRYSTAL GLASS (ZERO BLACK / ZERO DARK FILL)
+   Fully Transparent, High Resolution & Modern FiveM NUI
    ========================================================================== */
 
 :root {
-    /* Glass Theme Colors */
-    --panel-bg:          rgba(255, 255, 255, 0.08);
-    --panel-border:      rgba(255, 255, 255, 0.32);
-    --panel-shine:       rgba(255, 255, 255, 0.55);
+    /* Crystal Glass Colors (Zero Dark Fill) */
+    --panel-bg:          rgba(255, 255, 255, 0.03);
+    --panel-border:      rgba(255, 255, 255, 0.45);
+    --panel-shine:       rgba(255, 255, 255, 0.70);
     
-    --slot-bg:           rgba(255, 255, 255, 0.10);
-    --slot-bg-hover:     rgba(255, 255, 255, 0.22);
-    --slot-border:       rgba(255, 255, 255, 0.28);
-    --slot-border-hover: rgba(255, 255, 255, 0.65);
+    --slot-bg:           rgba(255, 255, 255, 0.05);
+    --slot-bg-hover:     rgba(255, 255, 255, 0.20);
+    --slot-border:       rgba(255, 255, 255, 0.35);
+    --slot-border-hover: rgba(255, 255, 255, 0.85);
     
-    --blur:              blur(18px) saturate(1.5);
+    --blur:              blur(16px);
 
     /* Text Colors */
-    --text-high:         rgba(255, 255, 255, 0.95);
-    --text-mid:          rgba(255, 255, 255, 0.65);
-    --text-low:          rgba(255, 255, 255, 0.38);
+    --text-high:         #ffffff;
+    --text-mid:          rgba(255, 255, 255, 0.75);
+    --text-low:          rgba(255, 255, 255, 0.45);
 
-    /* Status Colors (Quality / Durability / Weight) */
-    --status-ok:         rgba(70, 220, 130, 0.90);
-    --status-warn:       rgba(255, 205, 70, 0.90);
-    --status-bad:        rgba(255, 90, 90, 0.90);
+    /* Status Colors */
+    --status-ok:         rgba(70, 230, 130, 0.95);
+    --status-warn:       rgba(255, 205, 70, 0.95);
+    --status-bad:        rgba(255, 90, 90, 0.95);
 
-    /* Shadows */
-    --panel-shadow:      0 12px 48px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
-    --slot-shadow:       0 2px 6px rgba(0, 0, 0, 0.10);
+    /* Light Glow Shadows (No Dark Shadows) */
+    --panel-shadow:      0 8px 32px rgba(255, 255, 255, 0.08), 0 0 15px rgba(255, 255, 255, 0.05);
+    --slot-shadow:       0 2px 8px rgba(255, 255, 255, 0.05);
 
     /* Border Radius */
     --r-sm: 8px;
@@ -41,9 +41,9 @@
     /* Fonts */
     --font-primary: "Inter", "Rajdhani", sans-serif;
 
-    /* Floating Vue Tooltips */
-    --v-popper-theme-background-color: rgba(20, 20, 30, 0.82);
-    --v-popper-theme-text-color:       rgba(255, 255, 255, 0.92);
+    /* Tooltips */
+    --v-popper-theme-background-color: rgba(255, 255, 255, 0.15);
+    --v-popper-theme-text-color:       #ffffff;
     --v-popper-theme-border-radius:    var(--r-sm);
     --v-popper-theme-padding:          12px;
     --v-popper-theme-box-shadow:       var(--panel-shadow);
@@ -62,6 +62,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     background: transparent !important;
+    background-color: transparent !important;
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
@@ -85,7 +86,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.35);
     border-radius: 4px;
 }
 
@@ -94,6 +95,7 @@ p {
     width: 100vw;
     position: relative;
     background: transparent !important;
+    background-color: transparent !important;
 }
 
 .inventory-container {
@@ -101,10 +103,11 @@ p {
     width: 100%;
     position: relative;
     background: transparent !important;
+    background-color: transparent !important;
 }
 
 /* ==========================================================================
-   INVENTORY PANELS (PLAYER & OTHER)
+   INVENTORY PANELS (PURE CRYSTAL GLASS)
    ========================================================================== */
 .inventory-section {
     position: absolute;
@@ -115,13 +118,12 @@ p {
     display: flex;
     flex-direction: column;
 
-    /* Glass Panels */
+    /* Ultra clear glass panel */
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
     border-radius: var(--r-xl);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 var(--panel-shine),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+                inset 0 1px 0 var(--panel-shine);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     overflow: hidden;
@@ -142,9 +144,9 @@ p {
     height: 1px;
     background: linear-gradient(90deg,
         transparent,
-        rgba(255, 255, 255, 0.75) 40%,
-        rgba(255, 255, 255, 0.90) 50%,
-        rgba(255, 255, 255, 0.75) 60%,
+        rgba(255, 255, 255, 0.85) 40%,
+        rgba(255, 255, 255, 1.00) 50%,
+        rgba(255, 255, 255, 0.85) 60%,
         transparent
     );
     z-index: 1;
@@ -171,8 +173,8 @@ p {
 .inventory-header {
     flex-shrink: 0;
     padding: 14px 18px 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
 }
 
 .labels-container {
@@ -188,20 +190,21 @@ p {
     text-transform: uppercase;
     letter-spacing: 0.20em;
     color: var(--text-high);
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.30);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.40);
 }
 
 .current-weight p {
     font-size: 0.78vh;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-mid);
     letter-spacing: 0.04em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.40);
 }
 
 .weight-bar {
     width: 100%;
     height: 3px;
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     overflow: visible;
     position: relative;
@@ -222,15 +225,16 @@ p {
     width: 7px; height: 7px;
     border-radius: 50%;
     background: inherit;
+    box-shadow: 0 0 6px currentColor;
     filter: brightness(1.4);
 }
 
-.weight-bar-fill.low    { background: linear-gradient(90deg, rgba(50, 200, 100, 0.55), var(--status-ok)); }
-.weight-bar-fill.medium { background: linear-gradient(90deg, rgba(220, 170, 40, 0.55), var(--status-warn)); }
-.weight-bar-fill.high   { background: linear-gradient(90deg, rgba(210, 60, 60, 0.55), var(--status-bad)); }
+.weight-bar-fill.low    { background: linear-gradient(90deg, rgba(80, 230, 140, 0.60), var(--status-ok)); }
+.weight-bar-fill.medium { background: linear-gradient(90deg, rgba(255, 205, 70, 0.60), var(--status-warn)); }
+.weight-bar-fill.high   { background: linear-gradient(90deg, rgba(255, 90, 90, 0.60), var(--status-bad)); }
 
 /* ==========================================================================
-   GRID & SLOTS
+   GRID & SLOTS (PURE GLASS - NO DARK GREY FILL)
    ========================================================================== */
 .inventory-grid {
     flex: 1;
@@ -253,27 +257,27 @@ p {
     justify-content: center;
     aspect-ratio: 1;
 
+    /* Crystal transparent slot background */
     background: var(--slot-bg);
     border: 1px solid var(--slot-border);
     border-radius: var(--r-md);
-    box-shadow: var(--slot-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.30);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
     cursor: pointer;
     transition: all 0.18s cubic-bezier(0.34, 1.20, 0.64, 1);
     overflow: hidden;
 }
 
-/* Inner Gloss Overlay */
+/* Light Top Reflection Overlay */
 .item-slot::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 40%;
+    height: 45%;
     background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.20) 0%,
         transparent 100%
     );
     border-radius: var(--r-md) var(--r-md) 0 0;
@@ -283,9 +287,8 @@ p {
 .item-slot:hover {
     background: var(--slot-bg-hover);
     border-color: var(--slot-border-hover);
-    box-shadow: var(--slot-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55),
-                0 0 0 1px rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.70),
+                0 0 12px rgba(255, 255, 255, 0.25);
     transform: translateY(-2px) scale(1.03);
 }
 
@@ -301,20 +304,20 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    height: 70%;
+    width: 72%;
+    height: 72%;
 }
 
 .item-slot-img img {
     width: 88%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.30));
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.40));
     transition: transform 0.20s ease, filter 0.20s ease;
 }
 
 .item-slot:hover .item-slot-img img {
-    filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.35)) brightness(1.08);
+    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.35)) brightness(1.10);
     transform: scale(1.07) translateY(-1px);
 }
 
@@ -322,50 +325,53 @@ p {
 .item-slot-key {
     font-weight: 700;
     font-size: 0.62vh;
-    color: var(--text-high);
+    color: #ffffff;
     position: absolute;
     top: 4px; left: 4px;
     width: 17px; height: 17px;
-    background: rgba(255, 255, 255, 0.20);
-    border: 1px solid rgba(255, 255, 255, 0.40);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.50);
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
     backdrop-filter: blur(4px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Amount Badge */
 .item-slot-amount {
     font-size: 0.60vh;
-    font-weight: 600;
-    color: var(--text-high);
+    font-weight: 700;
+    color: #ffffff;
     position: absolute;
     top: 4px; right: 4px;
-    background: rgba(0, 0, 0, 0.28);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.40);
     border-radius: 5px;
     padding: 1px 5px;
     line-height: 1.5;
     z-index: 2;
     backdrop-filter: blur(4px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Price Badge (Shop Items) */
 .item-price {
     font-size: 0.58vh;
     font-weight: 700;
-    color: rgba(255, 220, 90, 0.95);
+    color: #ffe066;
     position: absolute;
     top: 4px; left: 4px;
-    background: rgba(0, 0, 0, 0.28);
-    border: 1px solid rgba(255, 220, 90, 0.28);
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 224, 102, 0.50);
     border-radius: 5px;
     padding: 1px 5px;
     line-height: 1.5;
     z-index: 2;
     backdrop-filter: blur(4px);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* Item Label */
@@ -373,7 +379,7 @@ p {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: 5px 4px 3px;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.32) 0%, transparent 100%);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
     border-radius: 0 0 var(--r-md) var(--r-md);
     display: flex;
     justify-content: center;
@@ -381,11 +387,11 @@ p {
 
 .item-slot-label > p {
     text-transform: uppercase;
-    font-weight: 600;
-    color: var(--text-high);
+    font-weight: 700;
+    color: #ffffff;
     font-size: 0.50vh;
     letter-spacing: 0.07em;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.70);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -414,8 +420,8 @@ p {
 
 /* Invalid Slot Highlight Animation */
 .invalid-slot-highlight {
-    border-color: rgba(255, 80, 80, 0.80) !important;
-    background: rgba(255, 80, 80, 0.12) !important;
+    border-color: rgba(255, 90, 90, 0.90) !important;
+    background: rgba(255, 90, 90, 0.20) !important;
     animation: shake 0.4s ease;
 }
 
@@ -434,12 +440,12 @@ p {
     transform: translate(-50%, -50%);
     z-index: 10;
 
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.60);
     border-radius: var(--r-lg);
     padding: 8px 16px 10px;
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
     backdrop-filter: var(--blur);
     min-width: 90px;
     display: flex;
@@ -466,13 +472,14 @@ p {
 .input-container input {
     border: none;
     background: transparent;
-    color: var(--text-high);
+    color: #ffffff;
     font-size: 1.1vh;
-    font-weight: 600;
+    font-weight: 700;
     font-family: var(--font-primary);
     width: 58px;
     outline: none;
     text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .input-container input::placeholder { color: var(--text-low); }
@@ -511,11 +518,11 @@ p {
     gap: 6px;
     padding: 8px 12px;
 
-    background: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.45);
+                inset 0 1px 0 rgba(255, 255, 255, 0.60);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     position: relative;
@@ -526,7 +533,7 @@ p {
     position: absolute;
     top: 0; left: 18%; right: 18%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.70), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
 }
 
 .hotbar .item-slot {
@@ -564,11 +571,11 @@ p {
     gap: 3px;
     padding: 12px;
 
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.50);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.65);
     backdrop-filter: var(--blur);
     position: relative;
 }
@@ -578,7 +585,7 @@ p {
     position: absolute;
     top: 0; left: 15%; right: 15%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.80), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.90), transparent);
 }
 
 .notification-title {
@@ -609,8 +616,8 @@ p {
     gap: 8px;
     padding: 8px 14px;
 
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow);
     backdrop-filter: var(--blur);
@@ -630,11 +637,11 @@ p {
     font-family: var(--font-primary);
     font-size: 0.80vh;
 
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: var(--r-md);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
 
@@ -646,7 +653,7 @@ p {
     padding: 5px 0;
     cursor: pointer;
     color: var(--text-high);
-    overflow: hidden;
+    overflow: visible;
 
     animation: ctxIn 0.14s cubic-bezier(0.34, 1.40, 0.64, 1) both;
 }
@@ -661,7 +668,7 @@ p {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.80), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.90), transparent);
 }
 
 .context-menu li {
@@ -669,7 +676,7 @@ p {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     font-size: 0.72vh;
@@ -678,8 +685,8 @@ p {
     white-space: nowrap;
 }
 
-.context-menu li:hover { background: rgba(255, 255, 255, 0.18); }
-.context-menu li i { opacity: 0.60; font-size: 0.74vh; }
+.context-menu li:hover { background: rgba(255, 255, 255, 0.25); }
+.context-menu li i { opacity: 0.80; font-size: 0.74vh; }
 .context-menu li:hover i { opacity: 1.00; }
 
 .context-menu li + li::before {
@@ -687,17 +694,18 @@ p {
     position: absolute;
     top: 0; left: 10%; right: 10%;
     height: 1px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
 }
 
+/* Pure CSS Submenu */
 .submenu {
     position: absolute;
-    top: 0; left: 100%;
+    top: -5px; left: 100%;
     font-family: var(--font-primary);
     font-size: 0.72vh;
 
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: var(--r-md);
     box-shadow: var(--panel-shadow);
     backdrop-filter: var(--blur);
@@ -711,20 +719,20 @@ p {
     overflow: hidden;
 }
 
-.context-menu li:hover .submenu { display: block; }
+.context-menu li:hover > .submenu { display: block; }
 
 .submenu li {
     padding: 7px 14px;
     display: flex;
     align-items: center;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition: background 0.12s ease;
     white-space: nowrap;
 }
 
-.submenu li:hover { background: rgba(255, 255, 255, 0.18); }
+.submenu li:hover { background: rgba(255, 255, 255, 0.30); }
 
 /* ==========================================================================
    WEAPON ATTACHMENTS
@@ -739,12 +747,12 @@ p {
     position: absolute;
     transform: translate(-50%, -50%);
 
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 50%;
     backdrop-filter: var(--blur);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .weapon {
@@ -753,14 +761,14 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.28));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
 }
 
 .attachment-slot {
     position: absolute;
     width: 52px; height: 52px;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.50);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -771,8 +779,8 @@ p {
 }
 
 .attachment-slot:hover {
-    background: rgba(255, 255, 255, 0.28);
-    border-color: rgba(255, 255, 255, 0.70);
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.85);
     transform: scale(1.12);
 }
 
@@ -792,11 +800,11 @@ p {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.90;
-    border-color: rgba(255, 255, 255, 0.70) !important;
-    background: rgba(255, 255, 255, 0.20) !important;
+    opacity: 0.95;
+    border-color: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.25) !important;
     backdrop-filter: var(--blur) !important;
-    box-shadow: var(--panel-shadow), 0 16px 40px rgba(0, 0, 0, 0.20) !important;
+    box-shadow: var(--panel-shadow), 0 16px 40px rgba(255, 255, 255, 0.20) !important;
     transform: rotate(3deg) scale(1.06);
 }
 
@@ -804,9 +812,9 @@ p {
    TOOLTIPS
    ========================================================================== */
 .v-popper--theme-tooltip .v-popper__inner {
-    background: rgba(12, 12, 18, 0.88) !important;
-    color: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.50) !important;
     border-radius: var(--r-sm) !important;
     padding: 10px 13px !important;
     box-shadow: var(--panel-shadow) !important;
@@ -817,7 +825,7 @@ p {
 }
 
 .v-popper--theme-tooltip .v-popper__arrow-outer {
-    border-color: rgba(255, 255, 255, 0.20) !important;
+    border-color: rgba(255, 255, 255, 0.40) !important;
 }
 
 /* FontAwesome Helper */
