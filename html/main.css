@@ -1,77 +1,91 @@
-@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap");
 
-/* ==========================================================
-   ██████╗ ██╗      █████╗ ███████╗███████╗
-   ██╔════╝ ██║     ██╔══██╗██╔════╝██╔════╝
-   ██║  ███╗██║     ███████║███████╗███████╗
-   ██║   ██║██║     ██╔══██║╚════██║╚════██║
-   ╚██████╔╝███████╗██║  ██║███████║███████║
-    ╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝
-   Glass UI — FiveM NUI Compatible
-   ========================================================== */
+/* ==========================================================================
+   QB-INVENTORY — GLASSMORPHISM THEME
+   Fully Transparent, High Resolution & Modern FiveM NUI Compatible
+   ========================================================================== */
 
 :root {
-    /* Glass values */
-    --panel-bg:      rgba(255, 255, 255, 0.08);
-    --panel-border:  rgba(255, 255, 255, 0.32);
-    --panel-shine:   rgba(255, 255, 255, 0.55);
-    --slot-bg:       rgba(255, 255, 255, 0.10);
-    --slot-bg-hover: rgba(255, 255, 255, 0.22);
-    --slot-border:   rgba(255, 255, 255, 0.28);
-    --slot-border-h: rgba(255, 255, 255, 0.65);
-    --blur:          blur(18px) saturate(1.5);
+    /* Glass Theme Colors */
+    --panel-bg:          rgba(255, 255, 255, 0.08);
+    --panel-border:      rgba(255, 255, 255, 0.32);
+    --panel-shine:       rgba(255, 255, 255, 0.55);
+    
+    --slot-bg:           rgba(255, 255, 255, 0.10);
+    --slot-bg-hover:     rgba(255, 255, 255, 0.22);
+    --slot-border:       rgba(255, 255, 255, 0.28);
+    --slot-border-hover: rgba(255, 255, 255, 0.65);
+    
+    --blur:              blur(18px) saturate(1.5);
 
-    /* Text */
-    --text-hi:  rgba(255, 255, 255, 0.95);
-    --text-mid: rgba(255, 255, 255, 0.65);
-    --text-lo:  rgba(255, 255, 255, 0.38);
+    /* Text Colors */
+    --text-high:         rgba(255, 255, 255, 0.95);
+    --text-mid:          rgba(255, 255, 255, 0.65);
+    --text-low:          rgba(255, 255, 255, 0.38);
 
-    /* Status */
-    --ok:   rgba(70, 220, 130, 0.90);
-    --warn: rgba(255, 205, 70, 0.90);
-    --bad:  rgba(255, 90, 90, 0.90);
+    /* Status Colors (Quality / Durability / Weight) */
+    --status-ok:         rgba(70, 220, 130, 0.90);
+    --status-warn:       rgba(255, 205, 70, 0.90);
+    --status-bad:        rgba(255, 90, 90, 0.90);
 
     /* Shadows */
-    --panel-shadow: 0 12px 48px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
-    --slot-shadow:  0 2px 6px rgba(0,0,0,0.10);
+    --panel-shadow:      0 12px 48px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
+    --slot-shadow:       0 2px 6px rgba(0, 0, 0, 0.10);
 
-    /* Radius */
+    /* Border Radius */
     --r-sm: 8px;
     --r-md: 12px;
     --r-lg: 16px;
     --r-xl: 22px;
 
-    /* Font */
-    --font: "Inter", "Rajdhani", sans-serif;
+    /* Fonts */
+    --font-primary: "Inter", "Rajdhani", sans-serif;
 
-    /* Tooltip (floating-vue) */
-    --v-popper-theme-background-color: rgba(20, 20, 30, 0.80);
+    /* Floating Vue Tooltips */
+    --v-popper-theme-background-color: rgba(20, 20, 30, 0.82);
     --v-popper-theme-text-color:       rgba(255, 255, 255, 0.92);
     --v-popper-theme-border-radius:    var(--r-sm);
     --v-popper-theme-padding:          12px;
     --v-popper-theme-box-shadow:       var(--panel-shadow);
 }
 
-/* ==========================================================
-   RESET — make everything transparent for FiveM NUI
-   ========================================================== */
-*, *::before, *::after { box-sizing: border-box; }
+/* ==========================================================================
+   RESET & FIVE M NUI TRANSPARENCY
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
-/* ⚠️ CRITICAL: transparent for FiveM NUI overlay */
 html, body {
     margin: 0;
     padding: 0;
+    width: 100vw;
+    height: 100vh;
     background: transparent !important;
     overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-div, ul, li, p, span { font-family: var(--font); }
-p { margin: 0; padding: 0; }
+div, ul, li, p, span, input, button {
+    font-family: var(--font-primary);
+}
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
+p {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
     border-radius: 4px;
 }
 
@@ -82,35 +96,32 @@ p { margin: 0; padding: 0; }
     background: transparent !important;
 }
 
-/* ==========================================================
-   INVENTORY CONTAINER
-   ========================================================== */
 .inventory-container {
     height: 100%;
     width: 100%;
     position: relative;
-    background: transparent;
+    background: transparent !important;
 }
 
-/* ==========================================================
-   PANEL
-   ========================================================== */
+/* ==========================================================================
+   INVENTORY PANELS (PLAYER & OTHER)
+   ========================================================================== */
 .inventory-section {
     position: absolute;
     top: 50vh;
-    width: 34vw;
-    height: 62vh;
+    width: 30vw;
+    height: 55vh;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
 
-    /* Glass panel — truly transparent */
+    /* Glass Panels */
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
     border-radius: var(--r-xl);
     box-shadow: var(--panel-shadow),
                 inset 0 1px 0 var(--panel-shine),
-                inset 0 -1px 0 rgba(255,255,255,0.06);
+                inset 0 -1px 0 rgba(255, 255, 255, 0.06);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     overflow: hidden;
@@ -123,7 +134,7 @@ p { margin: 0; padding: 0; }
     to   { opacity: 1; transform: translateY(-50%) scale(1); }
 }
 
-/* Top shimmer line */
+/* Top Shimmer Accent Line */
 .inventory-section::before {
     content: "";
     position: absolute;
@@ -131,36 +142,37 @@ p { margin: 0; padding: 0; }
     height: 1px;
     background: linear-gradient(90deg,
         transparent,
-        rgba(255,255,255,0.75) 40%,
-        rgba(255,255,255,0.90) 50%,
-        rgba(255,255,255,0.75) 60%,
+        rgba(255, 255, 255, 0.75) 40%,
+        rgba(255, 255, 255, 0.90) 50%,
+        rgba(255, 255, 255, 0.75) 60%,
         transparent
     );
     z-index: 1;
     pointer-events: none;
 }
 
-.player-inventory-section { left: 3vw; }
-.other-inventory-section  { right: 3vw; animation-delay: 0.06s; }
+.player-inventory-section { left: 4vw; }
+.other-inventory-section  { right: 4vw; animation-delay: 0.06s; }
 
 .centered-inventory-section {
     left: 50vw;
     transform: translate(-50%, -50%);
     animation: panelInCenter 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+
 @keyframes panelInCenter {
     from { opacity: 0; transform: translate(-50%, calc(-50% + 18px)) scale(0.96); }
     to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* ==========================================================
-   HEADER
-   ========================================================== */
+/* ==========================================================================
+   HEADER & WEIGHT BAR
+   ========================================================================== */
 .inventory-header {
     flex-shrink: 0;
     padding: 14px 18px 12px;
-    background: rgba(255,255,255,0.04);
-    border-bottom: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .labels-container {
@@ -175,8 +187,8 @@ p { margin: 0; padding: 0; }
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.20em;
-    color: var(--text-hi);
-    text-shadow: 0 1px 6px rgba(0,0,0,0.30);
+    color: var(--text-high);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.30);
 }
 
 .current-weight p {
@@ -186,11 +198,10 @@ p { margin: 0; padding: 0; }
     letter-spacing: 0.04em;
 }
 
-/* Weight bar */
 .weight-bar {
     width: 100%;
     height: 3px;
-    background: rgba(255,255,255,0.10);
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 10px;
     overflow: visible;
     position: relative;
@@ -203,7 +214,6 @@ p { margin: 0; padding: 0; }
     position: relative;
 }
 
-/* Glowing tip */
 .weight-bar-fill::after {
     content: "";
     position: absolute;
@@ -215,13 +225,13 @@ p { margin: 0; padding: 0; }
     filter: brightness(1.4);
 }
 
-.weight-bar-fill.low    { background: linear-gradient(90deg, rgba(50,200,100,0.55), var(--ok)); }
-.weight-bar-fill.medium { background: linear-gradient(90deg, rgba(220,170,40,0.55), var(--warn)); }
-.weight-bar-fill.high   { background: linear-gradient(90deg, rgba(210,60,60,0.55), var(--bad)); }
+.weight-bar-fill.low    { background: linear-gradient(90deg, rgba(50, 200, 100, 0.55), var(--status-ok)); }
+.weight-bar-fill.medium { background: linear-gradient(90deg, rgba(220, 170, 40, 0.55), var(--status-warn)); }
+.weight-bar-fill.high   { background: linear-gradient(90deg, rgba(210, 60, 60, 0.55), var(--status-bad)); }
 
-/* ==========================================================
-   GRID
-   ========================================================== */
+/* ==========================================================================
+   GRID & SLOTS
+   ========================================================================== */
 .inventory-grid {
     flex: 1;
     overflow-x: hidden;
@@ -236,9 +246,6 @@ p { margin: 0; padding: 0; }
     align-content: flex-start;
 }
 
-/* ==========================================================
-   ITEM SLOT  — glass, no dark fill
-   ========================================================== */
 .item-slot {
     position: relative;
     display: flex;
@@ -250,7 +257,7 @@ p { margin: 0; padding: 0; }
     border: 1px solid var(--slot-border);
     border-radius: var(--r-md);
     box-shadow: var(--slot-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.30);
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 
@@ -259,14 +266,14 @@ p { margin: 0; padding: 0; }
     overflow: hidden;
 }
 
-/* Inner top gloss */
+/* Inner Gloss Overlay */
 .item-slot::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 40%;
     background: linear-gradient(180deg,
-        rgba(255,255,255,0.14) 0%,
+        rgba(255, 255, 255, 0.14) 0%,
         transparent 100%
     );
     border-radius: var(--r-md) var(--r-md) 0 0;
@@ -275,10 +282,10 @@ p { margin: 0; padding: 0; }
 
 .item-slot:hover {
     background: var(--slot-bg-hover);
-    border-color: var(--slot-border-h);
+    border-color: var(--slot-border-hover);
     box-shadow: var(--slot-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.55),
-                0 0 0 1px rgba(255,255,255,0.12);
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                0 0 0 1px rgba(255, 255, 255, 0.12);
     transform: translateY(-2px) scale(1.03);
 }
 
@@ -287,9 +294,9 @@ p { margin: 0; padding: 0; }
     transition-duration: 0.08s;
 }
 
-/* ==========================================================
-   SLOT CONTENTS
-   ========================================================== */
+/* ==========================================================================
+   SLOT ELEMENTS (IMAGES, BADGES, DURABILITY)
+   ========================================================================== */
 .item-slot-img {
     display: flex;
     justify-content: center;
@@ -302,25 +309,25 @@ p { margin: 0; padding: 0; }
     width: 88%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.30));
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.30));
     transition: transform 0.20s ease, filter 0.20s ease;
 }
 
 .item-slot:hover .item-slot-img img {
-    filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35)) brightness(1.08);
+    filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.35)) brightness(1.08);
     transform: scale(1.07) translateY(-1px);
 }
 
-/* Hotkey badge */
+/* Hotkey Badge (1-5) */
 .item-slot-key {
     font-weight: 700;
     font-size: 0.62vh;
-    color: var(--text-hi);
+    color: var(--text-high);
     position: absolute;
     top: 4px; left: 4px;
     width: 17px; height: 17px;
-    background: rgba(255,255,255,0.20);
-    border: 1px solid rgba(255,255,255,0.40);
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.40);
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -329,15 +336,15 @@ p { margin: 0; padding: 0; }
     backdrop-filter: blur(4px);
 }
 
-/* Amount badge */
+/* Amount Badge */
 .item-slot-amount {
     font-size: 0.60vh;
     font-weight: 600;
-    color: var(--text-hi);
+    color: var(--text-high);
     position: absolute;
     top: 4px; right: 4px;
-    background: rgba(0,0,0,0.28);
-    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 5px;
     padding: 1px 5px;
     line-height: 1.5;
@@ -345,15 +352,15 @@ p { margin: 0; padding: 0; }
     backdrop-filter: blur(4px);
 }
 
-/* Price badge (shop) */
+/* Price Badge (Shop Items) */
 .item-price {
     font-size: 0.58vh;
     font-weight: 700;
     color: rgba(255, 220, 90, 0.95);
     position: absolute;
     top: 4px; left: 4px;
-    background: rgba(0,0,0,0.28);
-    border: 1px solid rgba(255,220,90,0.28);
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 220, 90, 0.28);
     border-radius: 5px;
     padding: 1px 5px;
     line-height: 1.5;
@@ -361,12 +368,12 @@ p { margin: 0; padding: 0; }
     backdrop-filter: blur(4px);
 }
 
-/* Item label */
+/* Item Label */
 .item-slot-label {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: 5px 4px 3px;
-    background: linear-gradient(0deg, rgba(0,0,0,0.32) 0%, transparent 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.32) 0%, transparent 100%);
     border-radius: 0 0 var(--r-md) var(--r-md);
     display: flex;
     justify-content: center;
@@ -375,10 +382,10 @@ p { margin: 0; padding: 0; }
 .item-slot-label > p {
     text-transform: uppercase;
     font-weight: 600;
-    color: var(--text-hi);
+    color: var(--text-high);
     font-size: 0.50vh;
     letter-spacing: 0.07em;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -386,7 +393,7 @@ p { margin: 0; padding: 0; }
     text-align: center;
 }
 
-/* Durability bar */
+/* Durability Bar */
 .item-slot-durability {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -401,11 +408,11 @@ p { margin: 0; padding: 0; }
     transition: width 0.35s ease;
 }
 
-.item-slot-durability-fill.high   { background: var(--ok); }
-.item-slot-durability-fill.medium { background: var(--warn); }
-.item-slot-durability-fill.low    { background: var(--bad); }
+.item-slot-durability-fill.high   { background: var(--status-ok); }
+.item-slot-durability-fill.medium { background: var(--status-warn); }
+.item-slot-durability-fill.low    { background: var(--status-bad); }
 
-/* Invalid slot */
+/* Invalid Slot Highlight Animation */
 .invalid-slot-highlight {
     border-color: rgba(255, 80, 80, 0.80) !important;
     background: rgba(255, 80, 80, 0.12) !important;
@@ -413,26 +420,26 @@ p { margin: 0; padding: 0; }
 }
 
 @keyframes shake {
-    0%,100% { transform: translateX(0); }
+    0%, 100% { transform: translateX(0); }
     25%      { transform: translateX(-5px); }
     75%      { transform: translateX(5px); }
 }
 
-/* ==========================================================
-   TRANSFER AMOUNT INPUT
-   ========================================================== */
+/* ==========================================================================
+   TRANSFER INPUT CONTAINER
+   ========================================================================== */
 .input-container {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
 
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.45);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: var(--r-lg);
     padding: 8px 16px 10px;
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
     backdrop-filter: var(--blur);
     min-width: 90px;
     display: flex;
@@ -459,16 +466,16 @@ p { margin: 0; padding: 0; }
 .input-container input {
     border: none;
     background: transparent;
-    color: var(--text-hi);
+    color: var(--text-high);
     font-size: 1.1vh;
     font-weight: 600;
-    font-family: var(--font);
+    font-family: var(--font-primary);
     width: 58px;
     outline: none;
     text-align: center;
 }
 
-.input-container input::placeholder { color: var(--text-lo); }
+.input-container input::placeholder { color: var(--text-low); }
 .input-container input[type=number]::-webkit-inner-spin-button,
 .input-container input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
@@ -482,11 +489,12 @@ p { margin: 0; padding: 0; }
     line-height: 1;
     padding: 2px;
 }
-.clear-button:hover { color: var(--bad); }
 
-/* ==========================================================
+.clear-button:hover { color: var(--status-bad); }
+
+/* ==========================================================================
    HOTBAR
-   ========================================================== */
+   ========================================================================== */
 .hotbar-container {
     display: flex;
     justify-content: center;
@@ -503,11 +511,11 @@ p { margin: 0; padding: 0; }
     gap: 6px;
     padding: 8px 12px;
 
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.45);
+                inset 0 1px 0 rgba(255, 255, 255, 0.45);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     position: relative;
@@ -518,7 +526,7 @@ p { margin: 0; padding: 0; }
     position: absolute;
     top: 0; left: 18%; right: 18%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.70), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.70), transparent);
 }
 
 .hotbar .item-slot {
@@ -528,9 +536,9 @@ p { margin: 0; padding: 0; }
     border-radius: var(--r-sm);
 }
 
-/* ==========================================================
-   NOTIFICATION
-   ========================================================== */
+/* ==========================================================================
+   NOTIFICATION POPUP
+   ========================================================================== */
 .notification-container {
     display: flex;
     justify-content: center;
@@ -556,11 +564,11 @@ p { margin: 0; padding: 0; }
     gap: 3px;
     padding: 12px;
 
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.42);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.42);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
     backdrop-filter: var(--blur);
     position: relative;
 }
@@ -570,21 +578,22 @@ p { margin: 0; padding: 0; }
     position: absolute;
     top: 0; left: 15%; right: 15%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.80), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.80), transparent);
 }
 
 .notification-title {
-    color: var(--text-hi);
+    color: var(--text-high);
     font-size: 0.68vh;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
+
 .notification-title p { margin: 0; }
 
-/* ==========================================================
+/* ==========================================================================
    REQUIRED ITEMS
-   ========================================================== */
+   ========================================================================== */
 .required-item-container {
     display: flex;
     justify-content: center;
@@ -600,8 +609,8 @@ p { margin: 0; padding: 0; }
     gap: 8px;
     padding: 8px 14px;
 
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: var(--r-lg);
     box-shadow: var(--panel-shadow);
     backdrop-filter: var(--blur);
@@ -613,19 +622,19 @@ p { margin: 0; padding: 0; }
     margin: 0;
 }
 
-/* ==========================================================
-   CONTEXT MENU
-   ========================================================== */
+/* ==========================================================================
+   CONTEXT MENU (RIGHT CLICK)
+   ========================================================================== */
 .context-menu {
     position: absolute;
-    font-family: var(--font);
+    font-family: var(--font-primary);
     font-size: 0.80vh;
 
-    background: rgba(255,255,255,0.16);
-    border: 1px solid rgba(255,255,255,0.45);
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: var(--r-md);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.55);
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
 
@@ -636,7 +645,7 @@ p { margin: 0; padding: 0; }
     margin: 0;
     padding: 5px 0;
     cursor: pointer;
-    color: var(--text-hi);
+    color: var(--text-high);
     overflow: hidden;
 
     animation: ctxIn 0.14s cubic-bezier(0.34, 1.40, 0.64, 1) both;
@@ -652,7 +661,7 @@ p { margin: 0; padding: 0; }
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.80), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.80), transparent);
 }
 
 .context-menu li {
@@ -669,7 +678,7 @@ p { margin: 0; padding: 0; }
     white-space: nowrap;
 }
 
-.context-menu li:hover { background: rgba(255,255,255,0.18); }
+.context-menu li:hover { background: rgba(255, 255, 255, 0.18); }
 .context-menu li i { opacity: 0.60; font-size: 0.74vh; }
 .context-menu li:hover i { opacity: 1.00; }
 
@@ -678,18 +687,17 @@ p { margin: 0; padding: 0; }
     position: absolute;
     top: 0; left: 10%; right: 10%;
     height: 1px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* Submenu */
 .submenu {
     position: absolute;
     top: 0; left: 100%;
-    font-family: var(--font);
+    font-family: var(--font-primary);
     font-size: 0.72vh;
 
-    background: rgba(255,255,255,0.16);
-    border: 1px solid rgba(255,255,255,0.42);
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.42);
     border-radius: var(--r-md);
     box-shadow: var(--panel-shadow);
     backdrop-filter: var(--blur);
@@ -716,11 +724,11 @@ p { margin: 0; padding: 0; }
     white-space: nowrap;
 }
 
-.submenu li:hover { background: rgba(255,255,255,0.18); }
+.submenu li:hover { background: rgba(255, 255, 255, 0.18); }
 
-/* ==========================================================
+/* ==========================================================================
    WEAPON ATTACHMENTS
-   ========================================================== */
+   ========================================================================== */
 .weapon-attachments {
     display: flex;
     justify-content: center;
@@ -731,12 +739,12 @@ p { margin: 0; padding: 0; }
     position: absolute;
     transform: translate(-50%, -50%);
 
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.32);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.32);
     border-radius: 50%;
     backdrop-filter: var(--blur);
     box-shadow: var(--panel-shadow),
-                inset 0 1px 0 rgba(255,255,255,0.40);
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
 }
 
 .weapon {
@@ -745,14 +753,14 @@ p { margin: 0; padding: 0; }
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.28));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.28));
 }
 
 .attachment-slot {
     position: absolute;
     width: 52px; height: 52px;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.38);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.38);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -763,8 +771,8 @@ p { margin: 0; padding: 0; }
 }
 
 .attachment-slot:hover {
-    background: rgba(255,255,255,0.28);
-    border-color: rgba(255,255,255,0.70);
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.70);
     transform: scale(1.12);
 }
 
@@ -777,42 +785,40 @@ p { margin: 0; padding: 0; }
 .attachment-slot:nth-child(5) { transform: rotate(240deg) translate(110px) rotate(-240deg); }
 .attachment-slot:nth-child(6) { transform: rotate(300deg) translate(110px) rotate(-300deg); }
 
-/* ==========================================================
-   DRAGGED ITEM
-   ========================================================== */
+/* ==========================================================================
+   DRAGGED ITEM OVERLAY
+   ========================================================================== */
 .dragged-item {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     opacity: 0.90;
-    border-color: rgba(255,255,255,0.70) !important;
-    background: rgba(255,255,255,0.20) !important;
+    border-color: rgba(255, 255, 255, 0.70) !important;
+    background: rgba(255, 255, 255, 0.20) !important;
     backdrop-filter: var(--blur) !important;
-    box-shadow: var(--panel-shadow), 0 16px 40px rgba(0,0,0,0.20) !important;
+    box-shadow: var(--panel-shadow), 0 16px 40px rgba(0, 0, 0, 0.20) !important;
     transform: rotate(3deg) scale(1.06);
 }
 
-/* ==========================================================
-   TOOLTIP
-   ========================================================== */
+/* ==========================================================================
+   TOOLTIPS
+   ========================================================================== */
 .v-popper--theme-tooltip .v-popper__inner {
     background: rgba(12, 12, 18, 0.88) !important;
-    color: rgba(255,255,255,0.95) !important;
-    border: 1px solid rgba(255,255,255,0.22) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
     border-radius: var(--r-sm) !important;
     padding: 10px 13px !important;
     box-shadow: var(--panel-shadow) !important;
-    font-family: var(--font) !important;
+    font-family: var(--font-primary) !important;
     font-size: 0.80vh !important;
     backdrop-filter: blur(16px) !important;
     line-height: 1.6 !important;
 }
 
 .v-popper--theme-tooltip .v-popper__arrow-outer {
-    border-color: rgba(255,255,255,0.20) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
 }
 
-/* ==========================================================
-   UTILITY
-   ========================================================== */
+/* FontAwesome Helper */
 .fas, .fa { font-size: 0.80vh; }

@@ -231,27 +231,27 @@
             </div>
 
             <!-- Context Menu -->
-            <ul v-if="showContextMenu" class="context-menu" :style="{ top: contextMenuPosition.top, left: contextMenuPosition.left }">
-                <li v-if="contextMenuItem.useable" @click="useItem(contextMenuItem)"><i class="fas fa-hand-pointer" style="margin-right:8px;opacity:0.7;"></i>Use</li>
-                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
+            <ul v-if="showContextMenu" class="context-menu" :style="{ top: contextMenuPosition.top, left: contextMenuPosition.left }" @mousedown.stop @click.stop>
+                <li v-if="contextMenuItem && contextMenuItem.useable" @click.stop="useItem(contextMenuItem)"><i class="fas fa-hand-pointer" style="margin-right:8px;opacity:0.7;"></i>Use</li>
+                <li class="has-submenu">
                     <i class="fas fa-share" style="margin-right:8px;opacity:0.7;"></i>Give
-                    <ul v-if="showSubmenu" class="submenu">
-                        <li @click="giveItem(contextMenuItem, 1)">Single</li>
-                        <li @click="giveItem(contextMenuItem, 'half')">Half</li>
-                        <li @click="giveItem(contextMenuItem, 'all')">All</li>
+                    <ul class="submenu">
+                        <li @click.stop="giveItem(contextMenuItem, 1)">Single</li>
+                        <li @click.stop="giveItem(contextMenuItem, 'half')">Half</li>
+                        <li @click.stop="giveItem(contextMenuItem, 'all')">All</li>
                     </ul>
                 </li>
-                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
+                <li class="has-submenu">
                     <i class="fas fa-trash-alt" style="margin-right:8px;opacity:0.7;"></i>Drop
-                    <ul v-if="showSubmenu" class="submenu">
-                        <li @click="dropItem(contextMenuItem, 1)">Single</li>
-                        <li @click="dropItem(contextMenuItem, 'half')">Half</li>
-                        <li @click="dropItem(contextMenuItem, 'all')">All</li>
+                    <ul class="submenu">
+                        <li @click.stop="dropItem(contextMenuItem, 1)">Single</li>
+                        <li @click.stop="dropItem(contextMenuItem, 'half')">Half</li>
+                        <li @click.stop="dropItem(contextMenuItem, 'all')">All</li>
                     </ul>
                 </li>
-                <li @click="splitAndPlaceItem(contextMenuItem, 'player')"><i class="fas fa-code-branch" style="margin-right:8px;opacity:0.7;"></i>Split</li>
-                <li v-if="contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click="copySerial(contextMenuItem)"><i class="fas fa-barcode" style="margin-right:8px;opacity:0.7;"></i>Copy Serial</li>
-                <li v-if="contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click="openWeaponAttachments(contextMenuItem)"><i class="fas fa-cog" style="margin-right:8px;opacity:0.7;"></i>Attachments</li>
+                <li @click.stop="splitAndPlaceItem(contextMenuItem, 'player')"><i class="fas fa-code-branch" style="margin-right:8px;opacity:0.7;"></i>Split</li>
+                <li v-if="contextMenuItem && contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click.stop="copySerial(contextMenuItem)"><i class="fas fa-barcode" style="margin-right:8px;opacity:0.7;"></i>Copy Serial</li>
+                <li v-if="contextMenuItem && contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click.stop="openWeaponAttachments(contextMenuItem)"><i class="fas fa-cog" style="margin-right:8px;opacity:0.7;"></i>Attachments</li>
             </ul>
         </div>
 

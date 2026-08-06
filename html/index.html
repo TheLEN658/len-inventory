@@ -19,19 +19,21 @@
     <body>
         <div id="app">
 
-            <!-- ===== INVENTORY PANEL ===== -->
+            <!-- =========================================================
+                 INVENTORY CONTAINER (MAIN UI)
+                 ========================================================= -->
             <div class="inventory-container" v-if="isInventoryOpen" @mousemove="drag" @mouseup="endDrag" @mousedown="containerMouseDownAction">
 
-                <!-- Player Inventory -->
+                <!-- ===== PLAYER INVENTORY ===== -->
                 <div class="inventory-section player-inventory-section" :class="{ 'centered-inventory-section': shouldCenterInventory }">
                     <div class="inventory-header">
                         <div class="labels-container">
                             <div class="inventory-label">
-                                <p><i class="fas fa-user" style="margin-right:6px;opacity:0.7;font-size:0.75vh;"></i>{{ inventoryLabel }}</p>
+                                <p><i class="fas fa-user" style="margin-right:6px;opacity:0.75;font-size:0.75vh;"></i>{{ inventoryLabel }}</p>
                             </div>
                             <div class="current-weight">
                                 <p>
-                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.6;font-size:0.7vh;"></i>
+                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.65;font-size:0.7vh;"></i>
                                     {{ (playerWeight / 1000).toFixed(1) }} / {{ (maxWeight / 1000).toFixed(1) }} kg
                                 </p>
                             </div>
@@ -55,7 +57,7 @@
                                 @dblclick="getItemInSlot(slot, 'player') && useItem(getItemInSlot(slot, 'player'))"
                                 @mousedown="event => handleMouseDown(event, slot, 'player')"
                             >
-                                <!-- Hotkey Badge -->
+                                <!-- Hotkey Badge (1-5) -->
                                 <div class="item-slot-key" v-if="slot <= 5">
                                     <p>{{ slot }}</p>
                                 </div>
@@ -93,7 +95,7 @@
                     </div>
                 </div>
 
-                <!-- Transfer Amount Input -->
+                <!-- ===== TRANSFER AMOUNT INPUT ===== -->
                 <div class="input-container" v-if="!isOtherInventoryEmpty">
                     <div class="input-wrapper">
                         <input
@@ -108,19 +110,19 @@
                     </div>
                 </div>
 
-                <!-- Other Inventory -->
+                <!-- ===== OTHER INVENTORY (TRUNK / STASH / SHOP / DROP) ===== -->
                 <div class="inventory-section other-inventory-section" v-if="!isOtherInventoryEmpty">
                     <div class="inventory-header">
                         <div class="labels-container">
                             <div class="inventory-label">
                                 <p>
-                                    <i class="fas fa-box-open" style="margin-right:6px;opacity:0.7;font-size:0.75vh;"></i>
+                                    <i class="fas fa-box-open" style="margin-right:6px;opacity:0.75;font-size:0.75vh;"></i>
                                     {{ otherInventoryLabel }}
                                 </p>
                             </div>
                             <div class="current-weight">
                                 <p>
-                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.6;font-size:0.7vh;"></i>
+                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.65;font-size:0.7vh;"></i>
                                     {{ (otherInventoryWeight / 1000).toFixed(1) }} / {{ (otherInventoryMaxWeight / 1000).toFixed(1) }} kg
                                 </p>
                             </div>
@@ -157,7 +159,7 @@
                                     <p>x{{ getItemInSlot(slot, 'other').amount }}</p>
                                 </div>
 
-                                <!-- Price (Shop) -->
+                                <!-- Price (Shop Items) -->
                                 <div v-if="isShopInventory && getItemInSlot(slot, 'other')" class="item-price">
                                     <p>${{ getItemInSlot(slot, 'other').price }}</p>
                                 </div>
@@ -183,7 +185,9 @@
 
             </div>
 
-            <!-- ===== HOTBAR ===== -->
+            <!-- =========================================================
+                 HOTBAR
+                 ========================================================= -->
             <div class="hotbar-container" v-if="showHotbar">
                 <div class="hotbar">
                     <div v-for="slot in 5" :key="slot" class="item-slot">
@@ -216,7 +220,9 @@
                 </div>
             </div>
 
-            <!-- ===== NOTIFICATION ===== -->
+            <!-- =========================================================
+                 NOTIFICATION POPUP
+                 ========================================================= -->
             <div class="notification-container" v-if="showNotification">
                 <div class="notification-slot">
                     <div class="notification-title">
@@ -234,7 +240,9 @@
                 </div>
             </div>
 
-            <!-- ===== REQUIRED ITEMS ===== -->
+            <!-- =========================================================
+                 REQUIRED ITEMS DISPLAY
+                 ========================================================= -->
             <div class="required-item-container" v-if="showRequiredItems">
                 <div class="required-item">
                     <div v-for="(item, index) in requiredItems" :key="index" class="item-slot">
@@ -248,7 +256,9 @@
                 </div>
             </div>
 
-            <!-- ===== WEAPON ATTACHMENTS ===== -->
+            <!-- =========================================================
+                 WEAPON ATTACHMENTS
+                 ========================================================= -->
             <div class="weapon-attachments" v-if="showWeaponAttachments">
                 <img class="weapon" :src="'images/' + selectedWeapon.image" alt="" />
                 <div
@@ -261,7 +271,9 @@
                 </div>
             </div>
 
-            <!-- ===== DRAGGED ITEM ===== -->
+            <!-- =========================================================
+                 DRAGGED ITEM OVERLAY
+                 ========================================================= -->
             <div
                 v-if="draggedItem"
                 class="item-slot dragged-item"
@@ -278,39 +290,52 @@
                 </div>
             </div>
 
-            <!-- ===== CONTEXT MENU ===== -->
+            <!-- =========================================================
+                 CONTEXT MENU (RIGHT CLICK) — FIXED EVENT BUBBLING & SUBMENUS
+                 ========================================================= -->
             <ul
                 v-if="showContextMenu"
                 class="context-menu"
                 :style="{ top: contextMenuPosition.top, left: contextMenuPosition.left }"
+                @mousedown.stop
+                @click.stop
             >
-                <li v-if="contextMenuItem.useable" @click="useItem(contextMenuItem)">
-                    <i class="fas fa-hand-pointer" style="margin-right:8px;opacity:0.7;"></i>Use
+                <!-- USE -->
+                <li v-if="contextMenuItem && contextMenuItem.useable" @click.stop="useItem(contextMenuItem)">
+                    <i class="fas fa-hand-pointer" style="margin-right:8px;opacity:0.75;"></i>Use
                 </li>
-                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
-                    <i class="fas fa-share" style="margin-right:8px;opacity:0.7;"></i>Give
-                    <ul v-if="showSubmenu" class="submenu">
-                        <li @click="giveItem(contextMenuItem, 1)">Single</li>
-                        <li @click="giveItem(contextMenuItem, 'half')">Half</li>
-                        <li @click="giveItem(contextMenuItem, 'all')">All</li>
+
+                <!-- GIVE -->
+                <li class="has-submenu">
+                    <i class="fas fa-share" style="margin-right:8px;opacity:0.75;"></i>Give
+                    <ul class="submenu">
+                        <li @click.stop="giveItem(contextMenuItem, 1)">Single</li>
+                        <li @click.stop="giveItem(contextMenuItem, 'half')">Half</li>
+                        <li @click.stop="giveItem(contextMenuItem, 'all')">All</li>
                     </ul>
                 </li>
-                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
-                    <i class="fas fa-trash-alt" style="margin-right:8px;opacity:0.7;"></i>Drop
-                    <ul v-if="showSubmenu" class="submenu">
-                        <li @click="dropItem(contextMenuItem, 1)">Single</li>
-                        <li @click="dropItem(contextMenuItem, 'half')">Half</li>
-                        <li @click="dropItem(contextMenuItem, 'all')">All</li>
+
+                <!-- DROP -->
+                <li class="has-submenu">
+                    <i class="fas fa-trash-alt" style="margin-right:8px;opacity:0.75;"></i>Drop
+                    <ul class="submenu">
+                        <li @click.stop="dropItem(contextMenuItem, 1)">Single</li>
+                        <li @click.stop="dropItem(contextMenuItem, 'half')">Half</li>
+                        <li @click.stop="dropItem(contextMenuItem, 'all')">All</li>
                     </ul>
                 </li>
-                <li @click="splitAndPlaceItem(contextMenuItem, 'player')">
-                    <i class="fas fa-code-branch" style="margin-right:8px;opacity:0.7;"></i>Split
+
+                <!-- SPLIT -->
+                <li @click.stop="splitAndPlaceItem(contextMenuItem, 'player')">
+                    <i class="fas fa-code-branch" style="margin-right:8px;opacity:0.75;"></i>Split
                 </li>
-                <li v-if="contextMenuItem.name.includes('weapon_')" @click="copySerial(contextMenuItem)">
-                    <i class="fas fa-barcode" style="margin-right:8px;opacity:0.7;"></i>Copy Serial
+
+                <!-- WEAPON OPTIONS -->
+                <li v-if="contextMenuItem && contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click.stop="copySerial(contextMenuItem)">
+                    <i class="fas fa-barcode" style="margin-right:8px;opacity:0.75;"></i>Copy Serial
                 </li>
-                <li v-if="contextMenuItem.name.includes('weapon_')" @click="openWeaponAttachments(contextMenuItem)">
-                    <i class="fas fa-cog" style="margin-right:8px;opacity:0.7;"></i>Attachments
+                <li v-if="contextMenuItem && contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click.stop="openWeaponAttachments(contextMenuItem)">
+                    <i class="fas fa-cog" style="margin-right:8px;opacity:0.75;"></i>Attachments
                 </li>
             </ul>
 
