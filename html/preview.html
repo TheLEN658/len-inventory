@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>QB Inventory — Preview</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="main.css" />
+        <link rel="stylesheet" href="https://unpkg.com/floating-vue@5.2.2/dist/style.css" />
+        <script src="https://kit.fontawesome.com/d37231be1f.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.1"></script>
+        <script src="https://unpkg.com/floating-vue@5.2.2/dist/floating-vue.umd.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+        <style>
+            body {
+                background:
+                    linear-gradient(160deg,
+                        rgba(60, 120, 200, 0.55) 0%,
+                        rgba(30, 60, 120, 0.70) 30%,
+                        rgba(80, 40, 120, 0.60) 60%,
+                        rgba(20, 80, 160, 0.75) 100%
+                    ),
+                    url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80') center/cover no-repeat;
+                min-height: 100vh;
+            }
+
+            /* Preview info bar */
+            .preview-bar {
+                position: fixed;
+                top: 12px;
+                right: 16px;
+                z-index: 9999;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .preview-btn {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 6px 14px;
+                border-radius: 5px;
+                border: 1px solid rgba(0,229,255,0.35);
+                background: rgba(0,229,255,0.08);
+                color: #00e5ff;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .preview-btn:hover {
+                background: rgba(0,229,255,0.18);
+                border-color: rgba(0,229,255,0.7);
+            }
+            .preview-btn.active {
+                background: rgba(0,229,255,0.22);
+                box-shadow: 0 0 12px rgba(0,229,255,0.3);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Preview toggle bar -->
+        <div class="preview-bar">
+            <button class="preview-btn" id="btn-player"   onclick="togglePanel('player')">👤 Player Only</button>
+            <button class="preview-btn" id="btn-both"     onclick="togglePanel('both')">📦 Player + Trunk</button>
+            <button class="preview-btn" id="btn-shop"     onclick="togglePanel('shop')">🛒 Shop</button>
+            <button class="preview-btn" id="btn-hotbar"   onclick="toggleHotbar()">🎮 Hotbar</button>
+            <button class="preview-btn" id="btn-notif"    onclick="toggleNotif()">🔔 Notification</button>
+        </div>
+
+        <div id="app">
+            <div class="inventory-container" v-if="isInventoryOpen" @mousemove="drag" @mouseup="endDrag" @mousedown="containerMouseDownAction">
+
+                <!-- Player Inventory -->
+                <div class="inventory-section player-inventory-section" :class="{ 'centered-inventory-section': shouldCenterInventory }">
+                    <div class="inventory-header">
+                        <div class="labels-container">
+                            <div class="inventory-label">
+                                <p><i class="fas fa-user" style="margin-right:6px;opacity:0.7;font-size:0.75vh;"></i>{{ inventoryLabel }}</p>
+                            </div>
+                            <div class="current-weight">
+                                <p>
+                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.6;font-size:0.7vh;"></i>
+                                    {{ (playerWeight / 1000).toFixed(1) }} / {{ (maxWeight / 1000).toFixed(1) }} kg
+                                </p>
+                            </div>
+                        </div>
+                        <div class="weight-bar">
+                            <div class="weight-bar-fill" :style="{ width: Math.min((playerWeight / maxWeight) * 100, 100) + '%' }" :class="weightBarClass"></div>
+                        </div>
+                    </div>
+                    <div class="inventory-grid">
+                        <div class="item-grid">
+                            <div
+                                v-for="slot in totalSlots" :key="slot"
+                                class="item-slot"
+                                :data-slot="slot"
+                                :class="{ 'invalid-slot-highlight': errorSlot === slot }"
+                                @dblclick="getItemInSlot(slot, 'player') && useItem(getItemInSlot(slot, 'player'))"
+                                @mousedown="event => handleMouseDown(event, slot, 'player')"
+                            >
+                                <div class="item-slot-key" v-if="slot <= 5"><p>{{ slot }}</p></div>
+                                <div class="item-slot-img" v-if="getItemInSlot(slot, 'player')" v-tooltip.right-end="{content: generateTooltipContent(getItemInSlot(slot, 'player')), html: true}">
+                                    <img :src="'images/' + getItemInSlot(slot, 'player').image" alt="" />
+                                </div>
+                                <div class="item-slot-amount" v-if="getItemInSlot(slot, 'player')">
+                                    <p>x{{ getItemInSlot(slot, 'player').amount }}</p>
+                                </div>
+                                <div class="item-slot-durability" v-if="getItemInSlot(slot, 'player')">
+                                    <div class="item-slot-durability-fill"
+                                        v-if="getItemInSlot(slot, 'player').info && 'quality' in getItemInSlot(slot, 'player').info"
+                                        :style="{ width: (getItemInSlot(slot, 'player').info.quality / 100) * 100 + '%' }"
+                                        :class="{
+                                            'high': getItemInSlot(slot, 'player').info.quality > 75,
+                                            'medium': getItemInSlot(slot, 'player').info.quality <= 75 && getItemInSlot(slot, 'player').info.quality > 25,
+                                            'low': getItemInSlot(slot, 'player').info.quality <= 25
+                                        }"
+                                    ></div>
+                                    <div class="item-slot-durability-fill" v-else style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfer Amount Input -->
+                <div class="input-container" v-if="!isOtherInventoryEmpty">
+                    <div class="input-wrapper">
+                        <input type="number" v-model="transferAmount" min="1" :placeholder="transferAmount === null ? '0' : ''" />
+                        <button @click="clearTransferAmount" class="clear-button"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <!-- Other Inventory -->
+                <div class="inventory-section other-inventory-section" v-if="!isOtherInventoryEmpty">
+                    <div class="inventory-header">
+                        <div class="labels-container">
+                            <div class="inventory-label">
+                                <p><i class="fas fa-box-open" style="margin-right:6px;opacity:0.7;font-size:0.75vh;"></i>{{ otherInventoryLabel }}</p>
+                            </div>
+                            <div class="current-weight">
+                                <p>
+                                    <i class="fas fa-weight-hanging" style="margin-right:4px;opacity:0.6;font-size:0.7vh;"></i>
+                                    {{ (otherInventoryWeight / 1000).toFixed(1) }} / {{ (otherInventoryMaxWeight / 1000).toFixed(1) }} kg
+                                </p>
+                            </div>
+                        </div>
+                        <div class="weight-bar">
+                            <div class="weight-bar-fill" :style="{ width: Math.min((otherInventoryWeight / otherInventoryMaxWeight) * 100, 100) + '%' }" :class="otherWeightBarClass"></div>
+                        </div>
+                    </div>
+                    <div class="inventory-grid">
+                        <div class="item-grid">
+                            <div v-for="slot in otherInventorySlots" :key="slot" class="item-slot" :data-slot="slot"
+                                @mousedown="event => handleMouseDown(event, slot, 'other')" @dragover.prevent>
+                                <div class="item-slot-img" v-if="getItemInSlot(slot, 'other')" v-tooltip.right-end="{content: generateTooltipContent(getItemInSlot(slot, 'other')), html: true}">
+                                    <img :src="'images/' + getItemInSlot(slot, 'other').image" alt="" />
+                                </div>
+                                <div class="item-slot-amount" v-if="getItemInSlot(slot, 'other')">
+                                    <p>x{{ getItemInSlot(slot, 'other').amount }}</p>
+                                </div>
+                                <div v-if="isShopInventory && getItemInSlot(slot, 'other')" class="item-price">
+                                    <p>${{ getItemInSlot(slot, 'other').price }}</p>
+                                </div>
+                                <div class="item-slot-durability" v-if="getItemInSlot(slot, 'other')">
+                                    <div class="item-slot-durability-fill"
+                                        v-if="getItemInSlot(slot, 'other').info && 'quality' in getItemInSlot(slot, 'other').info"
+                                        :style="{ width: (getItemInSlot(slot, 'other').info.quality / 100) * 100 + '%' }"
+                                        :class="{
+                                            'high': getItemInSlot(slot, 'other').info.quality > 75,
+                                            'medium': getItemInSlot(slot, 'other').info.quality <= 75 && getItemInSlot(slot, 'other').info.quality > 25,
+                                            'low': getItemInSlot(slot, 'other').info.quality <= 25
+                                        }"
+                                    ></div>
+                                    <div class="item-slot-durability-fill" v-else style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotbar -->
+            <div class="hotbar-container" v-if="showHotbar">
+                <div class="hotbar">
+                    <div v-for="slot in 5" :key="slot" class="item-slot">
+                        <div class="item-slot-key"><p>{{ slot }}</p></div>
+                        <div class="item-slot-img" v-if="getHotbarItemInSlot(slot)">
+                            <img :src="'images/' + getHotbarItemInSlot(slot).image" alt="" />
+                        </div>
+                        <div class="item-slot-amount" v-if="getHotbarItemInSlot(slot)">
+                            <p>x{{ getHotbarItemInSlot(slot).amount }}</p>
+                        </div>
+                        <div class="item-slot-durability" v-if="getHotbarItemInSlot(slot)">
+                            <div class="item-slot-durability-fill"
+                                v-if="getHotbarItemInSlot(slot).info && 'quality' in getHotbarItemInSlot(slot).info"
+                                :style="{ width: (getHotbarItemInSlot(slot).info.quality / 100) * 100 + '%' }"
+                                :class="{
+                                    'high': getHotbarItemInSlot(slot).info.quality > 75,
+                                    'medium': getHotbarItemInSlot(slot).info.quality <= 75 && getHotbarItemInSlot(slot).info.quality > 25,
+                                    'low': getHotbarItemInSlot(slot).info.quality <= 25
+                                }"
+                            ></div>
+                            <div class="item-slot-durability-fill" v-else style="width: 0%"></div>
+                        </div>
+                        <div class="item-slot-label" v-if="getHotbarItemInSlot(slot)">
+                            <p>{{ getHotbarItemInSlot(slot).label }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification -->
+            <div class="notification-container" v-if="showNotification">
+                <div class="notification-slot">
+                    <div class="notification-title"><p>{{ notificationType }}</p></div>
+                    <div class="item-slot-img"><img :src="notificationImage" alt="" /></div>
+                    <div class="item-slot-amount"><p>x{{ notificationAmount }}</p></div>
+                    <div class="item-slot-label"><p>{{ notificationText }}</p></div>
+                </div>
+            </div>
+
+            <!-- Dragged Item -->
+            <div v-if="draggedItem" class="item-slot dragged-item" :style="{ top: dragY + 'px', left: dragX + 'px' }">
+                <div class="item-slot-img"><img :src="'images/' + draggedItem.image" alt="" /></div>
+                <div class="item-slot-amount"><p>x{{ draggedItem.amount }}</p></div>
+                <div class="item-slot-label"><p>{{ draggedItem.label }}</p></div>
+            </div>
+
+            <!-- Context Menu -->
+            <ul v-if="showContextMenu" class="context-menu" :style="{ top: contextMenuPosition.top, left: contextMenuPosition.left }">
+                <li v-if="contextMenuItem.useable" @click="useItem(contextMenuItem)"><i class="fas fa-hand-pointer" style="margin-right:8px;opacity:0.7;"></i>Use</li>
+                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
+                    <i class="fas fa-share" style="margin-right:8px;opacity:0.7;"></i>Give
+                    <ul v-if="showSubmenu" class="submenu">
+                        <li @click="giveItem(contextMenuItem, 1)">Single</li>
+                        <li @click="giveItem(contextMenuItem, 'half')">Half</li>
+                        <li @click="giveItem(contextMenuItem, 'all')">All</li>
+                    </ul>
+                </li>
+                <li @mouseover="showSubmenu = true" @mouseleave="showSubmenu = false">
+                    <i class="fas fa-trash-alt" style="margin-right:8px;opacity:0.7;"></i>Drop
+                    <ul v-if="showSubmenu" class="submenu">
+                        <li @click="dropItem(contextMenuItem, 1)">Single</li>
+                        <li @click="dropItem(contextMenuItem, 'half')">Half</li>
+                        <li @click="dropItem(contextMenuItem, 'all')">All</li>
+                    </ul>
+                </li>
+                <li @click="splitAndPlaceItem(contextMenuItem, 'player')"><i class="fas fa-code-branch" style="margin-right:8px;opacity:0.7;"></i>Split</li>
+                <li v-if="contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click="copySerial(contextMenuItem)"><i class="fas fa-barcode" style="margin-right:8px;opacity:0.7;"></i>Copy Serial</li>
+                <li v-if="contextMenuItem.name && contextMenuItem.name.includes('weapon_')" @click="openWeaponAttachments(contextMenuItem)"><i class="fas fa-cog" style="margin-right:8px;opacity:0.7;"></i>Attachments</li>
+            </ul>
+        </div>
+
+        <script>
+        // ── MOCK DATA FOR PREVIEW ──────────────────────────────────────────
+        const MOCK_ITEMS = [
+            { name: 'phone',       label: 'Phone',        image: 'phone.png',       amount: 1,  weight: 200,  info: { quality: 95 }, useable: true  },
+            { name: 'water',       label: 'Water',        image: 'water.png',       amount: 6,  weight: 500,  info: { quality: 100 }, useable: true },
+            { name: 'bread',       label: 'Bread',        image: 'bread.png',       amount: 3,  weight: 300,  info: { quality: 60 }, useable: true  },
+            { name: 'bandage',     label: 'Bandage',      image: 'bandage.png',     amount: 10, weight: 100,  info: { quality: 100 }, useable: true },
+            { name: 'weapon_pistol', label: 'Pistol',     image: 'weapon_pistol.png', amount: 1, weight: 900, info: { quality: 45 }, useable: false },
+            { name: 'lockpick',    label: 'Lockpick',     image: 'lockpick.png',    amount: 5,  weight: 50,   info: { quality: 80 }, useable: true  },
+            { name: 'medikit',     label: 'Medkit',       image: 'medikit.png',     amount: 2,  weight: 800,  info: { quality: 100 }, useable: true },
+            { name: 'keys',        label: 'Vehicle Key',  image: 'keys.png',        amount: 1,  weight: 30,   info: {},               useable: false },
+            { name: 'money',       label: 'Cash',         image: 'money.png',       amount: 1500, weight: 100, info: {},              useable: false },
+            { name: 'cola',        label: 'Cola',         image: 'cola.png',        amount: 2,  weight: 300,  info: { quality: 20 }, useable: true  },
+        ];
+
+        function buildInventory(items, slots) {
+            const inv = {};
+            items.forEach((item, i) => {
+                if (i < slots) {
+                    inv[i + 1] = { ...item, slot: i + 1 };
+                }
+            });
+            return inv;
+        }
+
+        // ── VUE APP ───────────────────────────────────────────────────────
+        const { createApp } = Vue;
+        const FloatingVue = window.FloatingVue;
+
+        const app = createApp({
+            data() {
+                return {
+                    isInventoryOpen:   true,
+                    showHotbar:        true,
+                    showNotification:  false,
+                    showRequiredItems: false,
+                    showWeaponAttachments: false,
+                    showContextMenu:   false,
+                    showSubmenu:       false,
+
+                    inventoryLabel:      'BACKPACK',
+                    otherInventoryLabel: 'VEHICLE TRUNK',
+                    totalSlots:          25,
+                    otherInventorySlots: 20,
+                    maxWeight:           30000,
+                    otherInventoryMaxWeight: 50000,
+
+                    playerInventory: buildInventory(MOCK_ITEMS, 10),
+                    otherInventory:  buildInventory(MOCK_ITEMS.slice(2, 8), 6),
+                    isOtherInventoryEmpty: false,
+                    isShopInventory: false,
+
+                    transferAmount: null,
+                    errorSlot: null,
+
+                    draggedItem: null,
+                    dragX: 0,
+                    dragY: 0,
+                    isDragging: false,
+
+                    contextMenuItem: { name: '', useable: false },
+                    contextMenuPosition: { top: '0px', left: '0px' },
+
+                    notificationType: 'ADDED',
+                    notificationImage: 'images/bandage.png',
+                    notificationAmount: 3,
+                    notificationText: 'Bandage',
+
+                    requiredItems: [],
+                    selectedWeapon: {},
+                    selectedWeaponAttachments: [],
+                };
+            },
+            computed: {
+                playerWeight() {
+                    return Object.values(this.playerInventory).reduce((t, item) =>
+                        item && item.weight ? t + item.weight * item.amount : t, 0);
+                },
+                otherInventoryWeight() {
+                    return Object.values(this.otherInventory).reduce((t, item) =>
+                        item && item.weight ? t + item.weight * item.amount : t, 0);
+                },
+                weightBarClass() {
+                    const p = (this.playerWeight / this.maxWeight) * 100;
+                    return p < 50 ? 'low' : p < 75 ? 'medium' : 'high';
+                },
+                otherWeightBarClass() {
+                    const p = (this.otherInventoryWeight / this.otherInventoryMaxWeight) * 100;
+                    return p < 50 ? 'low' : p < 75 ? 'medium' : 'high';
+                },
+                shouldCenterInventory() { return this.isOtherInventoryEmpty; },
+            },
+            methods: {
+                getItemInSlot(slot, type) {
+                    const inv = type === 'player' ? this.playerInventory : this.otherInventory;
+                    return inv[slot] || null;
+                },
+                getHotbarItemInSlot(slot) {
+                    return this.playerInventory[slot] || null;
+                },
+                generateTooltipContent(item) {
+                    if (!item) return '';
+                    let html = `<div style="font-family:'Rajdhani',sans-serif;">`;
+                    html += `<div style="color:#00e5ff;font-weight:700;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">${item.label}</div>`;
+                    html += `<div style="color:#aac8e0;font-size:11px;margin-bottom:3px;">Weight: ${item.weight}g × ${item.amount}</div>`;
+                    if (item.info && 'quality' in item.info) {
+                        const q = item.info.quality;
+                        const color = q > 75 ? '#00ff88' : q > 25 ? '#ffcc00' : '#ff2d55';
+                        html += `<div style="color:${color};font-size:11px;">Quality: ${q}%</div>`;
+                    }
+                    html += `</div>`;
+                    return html;
+                },
+                useItem(item) { console.log('Use:', item.name); },
+                giveItem(item, amount) { console.log('Give:', item.name, amount); },
+                dropItem(item, amount) { console.log('Drop:', item.name, amount); },
+                splitAndPlaceItem(item) { console.log('Split:', item.name); },
+                copySerial(item) { console.log('Serial:', item.name); },
+                openWeaponAttachments(item) { console.log('Attachments:', item.name); },
+                removeAttachment(a) { console.log('Remove:', a); },
+                clearTransferAmount() { this.transferAmount = null; },
+
+                handleMouseDown(event, slot, type) {
+                    if (event.button === 2) {
+                        const item = this.getItemInSlot(slot, type);
+                        if (item) {
+                            this.contextMenuItem = item;
+                            this.contextMenuPosition = { top: event.clientY + 'px', left: event.clientX + 'px' };
+                            this.showContextMenu = true;
+                        }
+                        return;
+                    }
+                    const item = this.getItemInSlot(slot, type);
+                    if (item) {
+                        this.draggedItem = item;
+                        this.dragX = event.clientX - 35;
+                        this.dragY = event.clientY - 35;
+                        this.isDragging = true;
+                    }
+                },
+                drag(event) {
+                    if (this.isDragging && this.draggedItem) {
+                        this.dragX = event.clientX - 35;
+                        this.dragY = event.clientY - 35;
+                    }
+                },
+                endDrag() {
+                    this.draggedItem = null;
+                    this.isDragging = false;
+                },
+                containerMouseDownAction(event) {
+                    if (event.button !== 2) this.showContextMenu = false;
+                },
+            },
+        });
+
+        app.use(FloatingVue);
+        app.mount('#app');
+
+        // ── PREVIEW TOGGLE HELPERS ────────────────────────────────────────
+        function togglePanel(mode) {
+            const vm = app._context.app._instance.proxy;
+            vm.isInventoryOpen = true;
+            if (mode === 'player') {
+                vm.isOtherInventoryEmpty = true;
+            } else if (mode === 'both') {
+                vm.isOtherInventoryEmpty = false;
+                vm.isShopInventory = false;
+            } else if (mode === 'shop') {
+                vm.isOtherInventoryEmpty = false;
+                vm.isShopInventory = true;
+                // Add prices to other inventory items
+                Object.values(vm.otherInventory).forEach(item => { if(item) item.price = Math.floor(Math.random()*500+50); });
+            }
+        }
+        function toggleHotbar() {
+            const vm = app._context.app._instance.proxy;
+            vm.showHotbar = !vm.showHotbar;
+            vm.isInventoryOpen = !vm.showHotbar ? false : vm.isInventoryOpen;
+        }
+        function toggleNotif() {
+            const vm = app._context.app._instance.proxy;
+            vm.showNotification = !vm.showNotification;
+        }
+
+        // Right-click context menu prevention (for preview)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        </script>
+    </body>
+</html>
